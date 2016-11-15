@@ -1,3 +1,4 @@
+set -e
 backup_replace() {
 	ext=".bkp"
 	mv $2 $2$ext
@@ -16,12 +17,12 @@ verbose_print() {
 }
 
 # reset all packages and settings
-apt purge inetutils-inetd
-apt purge tftpd-hpa 
-apt purge isc-dhcp-server
-apt purge nginx
-apt purge squid-deb-proxy
-apt purge ntp
+apt -qq purge inetutils-inetd
+apt -qq purge tftpd-hpa 
+apt -qq purge isc-dhcp-server
+apt -qq purge nginx
+apt -qq purge squid-deb-proxy
+apt -qq purge ntp
 
 #===================
 #    DCHP Server    
@@ -29,7 +30,7 @@ apt purge ntp
 # isc-dhcp-server
 #   dynamic host config protocol (for assigning IP addresses to computers in the network
 # Interact with server via `sudo service isc-dhcp-server {status|start|stop|restart}`
-apt install isc-dhcp-server
+apt -qq install isc-dhcp-server
 verbose_print "DHCP: server installed"
 
 # Configure DHCP server
@@ -52,7 +53,7 @@ verbose_print "DHCP: static IP address configured"
 # tftpd-hpa
 #   trivial file transfer protocol server
 # Interact with `service tftpd-hpa {status|start|stop|restart|force-reload}`
-apt install tftpd-hpa
+apt -qq install tftpd-hpa
 verbose_print "TFTP: server installed"
 
 # Configure TFTP server.
@@ -64,7 +65,7 @@ verbose_print "TFTP: configured"
 #    inetd  Server    
 #===================
 #inetd service used to start tftpd on boot
-apt install inetutils-inetd
+apt -qq install inetutils-inetd
 verbose_print "INETD: installed"
 
 #configure inetd to start tftpd
@@ -97,7 +98,7 @@ verbose_print "boot image: configured"
 #    Webserver
 #=================
 # install nginx to run the server
-apt install nginx
+apt -qq install nginx
 verbose_print "NGINX: installed"
 
 # configure nginx to use /var/www [/html] as its service directory
@@ -118,10 +119,10 @@ verbose_print "NGINX: preseed installed"
 #===================
 #    Other Stuff
 #===================
-apt install squid-deb-proxy
+apt -qq install squid-deb-proxy
 verbose_print "Other: squid-deb-proxy installed"
 # network time protocol to provide time to network hosts
-apt install ntp
+apt -qq install ntp
 verbose_print "Other: ntp installed"
 
 
