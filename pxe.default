@@ -1,0 +1,5 @@
+default linux
+label linux
+    kernel ubuntu-installer/amd64/linux
+    append http_proxy="http://192.168.2.1:8000" auto=true preseed/url=http://192.168.2.1/ubuntu-16.04-preseed.cfg vga=normal initrd=ubuntu-installer/amd64/initrd.gz
+ramdisk_size=16432 root=/dev/rd/0 rw  --
