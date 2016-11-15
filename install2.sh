@@ -120,6 +120,7 @@ verbose_print "NGINX: preseed installed"
 #===================
 apt install squid-deb-proxy
 verbose_print "Other: squid-deb-proxy installed"
+# network time protocol to provide time to network hosts
 apt install ntp
 verbose_print "Other: ntp installed"
 
