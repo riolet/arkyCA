@@ -18,11 +18,19 @@ verbose_print() {
 
 # reset all packages and settings
 apt -qq purge inetutils-inetd
+verbose_print "Cleaned: inetutils-inetd"
 apt -qq purge tftpd-hpa 
+verbose_print "Cleaned: tftpd-hpa"
 apt -qq purge isc-dhcp-server
+verbose_print "Cleaned: isc-dhcp-server"
 apt -qq purge nginx
+verbose_print "Cleaned: nginx"
 apt -qq purge squid-deb-proxy
+verbose_print "Cleaned: squid-deb-proxy"
 apt -qq purge ntp
+verbose_print "Cleaned: ntp"
+apt -qq autoremove
+verbose_print "Cleaned: extraneous packages"
 
 #===================
 #    DCHP Server    
@@ -64,7 +72,8 @@ verbose_print "TFTP: configured"
 #===================
 #    inetd  Server    
 #===================
-#inetd service used to start tftpd on boot
+# inetd service used to start tftpd on boot
+# Interact with `service inetutils-inetd {status|start|stop|restart|force-reload}`
 apt -qq install inetutils-inetd
 verbose_print "INETD: installed"
 
@@ -105,7 +114,7 @@ verbose_print "NGINX: installed"
 # do an inplace edit of "/etc/.../default", replacing (s;) "/usr/share/nginx/www" with "/var/www"
 sed -i 's;/usr/share/nginx/www;/var/www;' /etc/nginx/sites-available/default
 mkdir -p /var/www
-cd var
+cd /var
 chown www-data:www-data www
 cd www
 verbose_print "NGINX: configured"
@@ -129,6 +138,7 @@ verbose_print "Other: ntp installed"
 #=========================
 #    Reboot Everything
 #=========================
+service inetutils-inetd restart
 # restart service to apply configuration
 /etc/init.d/tftpd-hpa restart
 # alt: 
